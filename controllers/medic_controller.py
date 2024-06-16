@@ -24,3 +24,10 @@ def get_medic_by_id(medic_id):
 @jwt_required()
 def delete_medic(medic_id):
     return MedicService.delete_medic(medic_id)
+
+@medic_blueprint.route('/<int:medic_id>', methods=['PUT'])
+@jwt_required()
+def update_medic(medic_id):
+    data = request.get_json()
+    result, status_code = MedicService.update_medic(medic_id, data)
+    return jsonify(result), status_code

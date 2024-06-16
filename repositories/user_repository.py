@@ -14,8 +14,19 @@ class UserRepository:
     @staticmethod
     def get_by_id(user_id):
         return User.query.get(user_id)
+    
+    @staticmethod
+    def get_all_user():
+        return User.query.all()
+    
+    @staticmethod
+    def delete_user(user):
+        db.session.delete(user)
+        db.session.commit()
 
     @staticmethod
     def save(user):
         db.session.add(user)
         db.session.commit()
+
+    

@@ -1,5 +1,8 @@
+from datetime import datetime  # Importa datetime para manejar fechas
 from repositories.patient_repository import PatientRepository
 from models.patient import Patient
+from databases.database import db
+
 
 class PatientService:
 
@@ -28,3 +31,27 @@ class PatientService:
             PatientRepository.delete(patient)
             return {'message': 'Patient deleted successfully'}, 200
         return {'message': 'Patient not found'}, 404
+    
+    @staticmethod
+    def update_patient(patient_id, data):
+        patient = Patient.query.get(patient_id)
+        if not patient:
+            return {'message': 'Patient not found'}, 404
+        
+        # Actualiza los campos del paciente con los datos recibidos
+        patient.name = data.get('name', patient.name)
+        patient.last_name = data.get('last_name', patient.last_name)
+        patient.sex = data.get('sex', patient.sex)
+        patient.phone_number = data.get('phone_number', patient.phone_number)
+        
+        # Convierte la cadena de fecha de nacimiento a un objeto de fecha de Python
+        try:
+            if 'birthdate' in data:
+                patient.birthdate = datetime.strptime(data['birthdate'], '%d-%m-%Y').date()
+        except ValueError:
+            return {'message': 'Invalid date format for birthdate. Use format DD-MM-YYYY.'}, 400
+        
+        # Guarda los cambios en la base de datos
+        db.session.commit()
+        
+        return {'message': 'Patient updated successfully'}, 200
