@@ -27,12 +27,15 @@ from controllers.user_controller import user_blueprint
 from controllers.patient_controller import patient_blueprint
 from controllers.medic_controller import medic_blueprint
 from controllers.admin_controller import admin_blueprint
+from controllers.file_controller import file_blueprint
 
 app.register_blueprint(auth_blueprint, url_prefix='/auth')
 app.register_blueprint(user_blueprint, url_prefix='/users')
 app.register_blueprint(patient_blueprint, url_prefix='/patients')
 app.register_blueprint(medic_blueprint, url_prefix='/medics')
 app.register_blueprint(admin_blueprint, url_prefix='/admins')
+
+app.register_blueprint(file_blueprint, url_prefix='/files')
 
 
 if __name__ == '__main__':
