@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required
 
 admin_blueprint = Blueprint('admins', __name__)
 
+
 @admin_blueprint.route('/create', methods=['POST'])
 @jwt_required()
 def create_user():
@@ -14,12 +15,12 @@ def create_user():
 
 
 
-@admin_blueprint.route('/users', methods=['GET'])
+@admin_blueprint.route('/', methods=['GET'])
 @jwt_required()
 def get_all_users():
     return AdminService.get_all_users()
 
-@admin_blueprint.route('/users/<int:user_id>', methods=['GET'])
+@admin_blueprint.route('/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_user_by_id(user_id):
     return AdminService.get_user_by_id(user_id)
@@ -32,6 +33,7 @@ def update_user(user_id):
     data = request.get_json()
     result, status_code = AdminService.update_user(user_id, data)
     return jsonify(result), status_code
+
 
 
 @admin_blueprint.route('/<int:user_id>', methods=['DELETE'])

@@ -24,13 +24,7 @@ class PatientService:
             return {'id': patient.id, 'name': patient.name, 'last_name': patient.last_name, 'birthdate': patient.birthdate, 'sex': patient.sex, 'phone_number': patient.phone_number}, 200
         return {'message': 'Patient not found'}, 404
 
-    @staticmethod
-    def delete_patient(patient_id):
-        patient = PatientRepository.get_by_id(patient_id)
-        if patient:
-            PatientRepository.delete(patient)
-            return {'message': 'Patient deleted successfully'}, 200
-        return {'message': 'Patient not found'}, 404
+    
     
     @staticmethod
     def update_patient(patient_id, data):
@@ -55,3 +49,12 @@ class PatientService:
         db.session.commit()
         
         return {'message': 'Patient updated successfully'}, 200
+    
+
+    @staticmethod
+    def delete_patient(patient_id):
+        patient = PatientRepository.get_by_id(patient_id)
+        if patient:
+            PatientRepository.delete(patient)
+            return {'message': 'Patient deleted successfully'}, 200
+        return {'message': 'Patient not found'}, 404

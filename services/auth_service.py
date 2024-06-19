@@ -28,23 +28,14 @@ class AuthService:
         UserRepository.save(user)
         return {'message': 'User created successfully. Please complete your profile.'}, 201
 
-    @staticmethod
-    def complete_profile(user_id, **kwargs):
-        user = UserRepository.get_by_id(user_id)
-        if not user:
-            return {'message': 'User not found'}, 404
-
-        for key, value in kwargs.items():
-            setattr(user, key, value)
-
-        UserRepository.save(user)
-        return {'message': 'Profile updated successfully'}, 200
-
+    
     @staticmethod
     def login_user(account, password):
         user = UserRepository.get_by_account(account)
         if not user or not check_password_hash(user.password, password):
             return {'message': 'Invalid credentials'}, 401
 
-        access_token = create_access_token(identity={'account': user.account, 'role': user.role})
+         # Generar el token de acceso usando Flask JWT Extended
+        access_token = create_access_token(identity={'id': user.id, 'account': user.account, 'role': user.role})
         return {'access_token': access_token}, 200
+    
