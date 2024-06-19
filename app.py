@@ -28,6 +28,7 @@ from controllers.patient_controller import patient_blueprint
 from controllers.medic_controller import medic_blueprint
 from controllers.admin_controller import admin_blueprint
 from controllers.file_controller import file_blueprint
+from controllers.medical_history_controller import medical_history_blueprint
 
 app.register_blueprint(auth_blueprint, url_prefix='/auth')
 app.register_blueprint(user_blueprint, url_prefix='/users')
@@ -36,7 +37,7 @@ app.register_blueprint(medic_blueprint, url_prefix='/medics')
 app.register_blueprint(admin_blueprint, url_prefix='/admins')
 
 app.register_blueprint(file_blueprint, url_prefix='/files')
-
+app.register_blueprint(medical_history_blueprint, url_prefix='/medical_history')
 
 if __name__ == '__main__':
     app.run(debug=True)
