@@ -34,4 +34,6 @@ def get_all_medical_history_by_patient(patient_id):
     if current_user.role != 'medic':
         return jsonify({'message': 'Permission denied'}), 403
 
-    return jsonify(MedicalHistoryService.get_all_medical_history_by_patient(patient_id))
+    return jsonify(MedicalHistoryService.get_all_medical_history_by_patient(patient_id))  
+
+
