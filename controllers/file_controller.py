@@ -60,3 +60,18 @@ def get_pending_appointments():
     current_user_id = get_jwt_identity()['id']
     pending_appointments, status_code = FileService.get_pending_appointments_by_patient(current_user_id)
     return jsonify(pending_appointments), status_code
+
+@file_blueprint.route('/<int:file_id>/updates_medic', methods=['PUT'])
+@jwt_required()
+def update_file_details_and_state(file_id):
+    data = request.get_json()
+    new_details = data.get('details')
+    new_state = data.get('state')
+    user_id = get_jwt_identity()['id']
+    current_user = UserRepository.get_by_id(user_id)
+
+    if new_details is None and new_state is None:
+        return jsonify({'message': 'Details or state must be provided'}), 400
+
+    response, status_code = FileService.update_file_details_and_state(file_id, new_details, new_state, current_user)
+    return jsonify(response), status_code
