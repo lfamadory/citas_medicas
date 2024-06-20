@@ -111,3 +111,20 @@ class FileService:
                 'state': appointment.state
             } for appointment in pending_appointments
         ], 200
+    
+    @staticmethod
+    def update_file_details_and_state(file_id, new_details, new_state, current_user):
+        file = FileRepository.get_by_id(file_id)
+        if not file:
+            return {'message': 'File not found'}, 404
+
+        if current_user.role != 'medic':
+            return {'message': 'Permission denied'}, 403
+
+        if new_details is not None:
+            file.details = new_details
+        if new_state is not None:
+            file.state = new_state
+            
+        FileRepository.update(file)
+        return {'message': 'File updated successfully'}, 200
