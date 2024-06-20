@@ -33,3 +33,8 @@ class FileRepository:
             File.presentation_time >= start_date,
             File.presentation_time <= end_date
         ).all()
+    
+
+    @staticmethod
+    def get_pending_appointments_by_patient(patient_id):
+        return File.query.filter_by(patient_id=patient_id, state='pendiente').all()

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from services.file_service import FileService
+from repositories.file_repository import FileRepository
 from repositories.user_repository import UserRepository  # Asegúrate de tener esto
 
 file_blueprint = Blueprint('file', __name__)
@@ -51,3 +52,11 @@ def get_appointments_by_date_range():
     if current_user.role != 'medic':
         return jsonify({'message': 'Permission denied'}), 403
     return jsonify(FileService.get_appointments_by_date_range(current_user.id, start_date, end_date))
+
+
+@file_blueprint.route('/patient/pending', methods=['GET'])
+@jwt_required()
+def get_pending_appointments():
+    current_user_id = get_jwt_identity()['id']
+    pending_appointments, status_code = FileService.get_pending_appointments_by_patient(current_user_id)
+    return jsonify(pending_appointments), status_code
