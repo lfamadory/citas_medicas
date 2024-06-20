@@ -96,3 +96,18 @@ class FileService:
                 'state': fl.state
             } for fl in files
         ], 200
+    
+    @staticmethod
+    def get_pending_appointments_by_patient(patient_id):
+        pending_appointments = FileRepository.get_pending_appointments_by_patient(patient_id)
+        return [
+            {
+                'id': appointment.id,
+                'medic_name': f"{appointment.medic.name} {appointment.medic.last_name}",
+                'speciality': appointment.medic.speciality,
+                'presentation_time': appointment.presentation_time,
+                'creation_date': appointment.creation_date,
+                'details': appointment.details,
+                'state': appointment.state
+            } for appointment in pending_appointments
+        ], 200
