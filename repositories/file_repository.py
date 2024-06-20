@@ -38,3 +38,6 @@ class FileRepository:
     @staticmethod
     def get_pending_appointments_by_patient(patient_id):
         return File.query.filter_by(patient_id=patient_id, state='pendiente').all()
+    
+
+    
